@@ -1,0 +1,11 @@
+.project
+.settings
+.DS_Store
+.vscode
+
+yarn.lock
+
+npm-debug.log*
+
+node_modules
+ifdata
