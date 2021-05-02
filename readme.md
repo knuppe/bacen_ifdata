@@ -3,22 +3,23 @@
 Programa para extração dos relatórios do site [IF.data](https://www3.bcb.gov.br/ifdata/index.html) do Banco Central do Brasil. 
 
 Em resumo, o programa faz o seguinte:
+* Cria uma pasta de saída chamada `ifdata`;
 * Faz o download dos arquivos em csv *(delimitado por ponto e vírgula)*;
-* Normgaliza o cabeçalho (arquivo original do bacen possui header com até 3 linhas... ¯\\_(ツ)_/¯ );
+* Normaliza o cabeçalho (arquivo original do bacen possui header com até 3 linhas... ¯\\_(ツ)_/¯ );
 * Remove os "NA" (não aplicável) e "NI" (não informado) dos dados numéricos, substituindo por vazio;
 * Salva o relatório com um nome mais acessível por scripts de consumo.
 
 O programa não baixa mais de uma vez os dados uma vez que o arquivo de saída já existe.
 
-## Instação
+## Instalação
 
-Para instalar  executar o programa de extração é necessário que o [nodejs](https://nodejs.org) esteja instalado e configurado conforme a documentação.
+Para instalar e executar o programa é necessário que o [nodejs](https://nodejs.org) esteja instalado e configurado conforme a documentação.
 
 ## Passos para utilizar
 
 1. Clonar o repositório no computador local;
 2. Instalar as dependências com o comando `npm -i`;
-3. Executar o programa `node main.js`
+3. Executar o programa `node main.js`;
 4. O programa vai criar uma pasta no diretório chamada `ifdata` com todos os arquivos .csv extraídos do site.
 
 Nota: O programa não vai tentar extrair mais de uma vez o arquivo caso ele já exista na pasta de dados salvos! \o/
