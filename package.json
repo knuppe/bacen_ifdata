@@ -2,10 +2,10 @@
     "name": "bacen_ifdata",
     "description": "Script para etl dos dados do Bacen IFData",
     "authors": "Gustavo Jesse Knuppe",
-    "version": "0.1",
+    "version": "0.2",
     "main": "main.js",
     "private": true,
     "dependencies": {
-        "puppeteer": "^9.0.0"
+        "puppeteer": "^13.3.1"
     }
 }

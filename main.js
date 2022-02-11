@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer');
 const downloadPath = path.join(__dirname, 'ifdata');
 const fileDados = path.join(downloadPath, 'dados.csv');
 
-// timeout que a rotina espera o site do bacen carregar, realmente precisa de 
+// timeout que a rotina espera o site do Bacen carregar, realmente precisa de 
 // um valor grande, por que durante o dia é comum ter que esperar minutos para
 // carregar os dados.
 const defaultTimeout = 60000 * 5;
@@ -38,7 +38,7 @@ const maxDatasVerificadas = 8;
     var tipoOpen = false;
     var relaOpen = false;
 
-    // carrega as datas disponíveis, primeira interação com a pagina o site do bacen carrega os dados...
+    // carrega as datas disponíveis, primeira interação com a pagina o site do Bacen carrega os dados...
     await page.click(`button#btnDataBase`);
     dataOpen = true;
 
@@ -121,7 +121,7 @@ const maxDatasVerificadas = 8;
                 }
 
                 const yyyymm = data[1].substr(3, 4) + data[1].substr(0, 2);
-                const fileName = path.join(downloadPath, yyyymm + '_' + normalizaTexo(tipo[1]) + '_' + normalizaTexo(relatorio[1]) + '.csv');
+                const fileName = path.join(downloadPath, yyyymm + '_' + normalizaTexto(tipo[1]) + '_' + normalizaTexto(relatorio[1]) + '.csv');
 
                 if (!fileExist(fileName)) {
                     try {
@@ -141,7 +141,7 @@ const maxDatasVerificadas = 8;
                     });
                     await csv.click();
 
-                    // como eles salvam o arquito via blob, é praticamente instantâneo, mas coloquei 
+                    // como eles salvam o arquivo via blob, é praticamente instantâneo, mas coloquei 
                     // 1 segundo para "garantir" que o "download" tenha completado.
                     await page.waitForTimeout(1000);
 
@@ -167,10 +167,10 @@ function processaDownload(outputFile) {
         var count = 0;
 
         if (lines.length > 6) {
-            const header = lines[0].split(';');
+            var header = lines[0].split(';');
 
-            // Hack: Além dos programadores que fizeram o site do bacen não seguirem o formato padrão de CSV,
-            //       eles tiveram a brilhante ideia de colocar agupamentos de headers dentro do CSV, o que faz
+            // Hack: Além dos programadores que fizeram o site do Bacen não seguirem o formato padrão de CSV,
+            //       eles tiveram a brilhante ideia de colocar agrupamentos de headers dentro do CSV, o que faz
             //       com que o título da coluna no CSV estar na primeira linha OU na terceira, dependendo da
             //       quantidade de agrupamentos que os cabeçalhos possuem... aqui lido com essa aberração! :/
             var start = 1;
@@ -196,14 +196,17 @@ function processaDownload(outputFile) {
     
                 }
             }
+            if (header[header.length-1] == '') {
+                header.pop();
+            }
             // paramos de lidar com a aberração...
-    
+
             const file = fs.createWriteStream(outputFile, { encoding: 'utf8' });
     
             file.write(`${header.join(';')}\r\n`);
             try {
                 for (let line = start; line < lines.length; line++) {
-                    if (lines[line].split(';').length != header.length - 1) {
+                    if (lines[line].split(';').length != header.length) {
                         // quando a quantidade de colunas dentro da linha é diferente dos headers, 
                         // é por que chegamos nos rodapés do CSV, onde eles colocam informações de 
                         // agrupamentos, fugindo do padrão, então ignoramos o resto de "lixo"
@@ -247,7 +250,7 @@ function fileExist(fileName) {
         return false;
     }
 }
-function normalizaTexo(str) {
+function normalizaTexto(str) {
     return str
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, '')
